@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue - Your Universal AI Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            overflow-x: hidden;
+            background: #ffffff;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+            max-height: 80px;
+        }
+        
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .logo-img {
+            height: 80px;
+            width: auto;
+        }
+
+        .nav-download {
+            background: transparent;
+            border: 2px solid #3b82f6;
+            color: #3b82f6;
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-download:hover {
+            background: #3b82f6;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+            padding: 4rem 2rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 0 1rem;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.8rem, 8vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(-1.5rem); 
+        }
+        
+        #dynamic-word-container {
+            position: relative;
+            display: inline-block;
+            text-align: right;
+            width: 5.5em; 
+            height: 1.2em;
+            margin-right: 0.75rem;
+        }
+        
+        .word-slide {
+            color: #3b82f6;
+            position: absolute;
+            top: 0;
+            right: 0;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateY(0.5em);
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .word-slide.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .word-slide.exiting {
+            opacity: 0;
+            transform: translateY(-0.5em);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 2.5rem;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 600px;
+        }
+
+        .cta-button {
+            background: #3b82f6;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .cta-button:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .beta-text {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            background: #f8fafc;
+            padding: 6rem 2rem;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 4rem;
+            color: #1f2937;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .step {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.1);
+        }
+
+        .step-number {
+            display: inline-flex;
+            width: 50px;
+            height: 50px;
+            background: #eef2ff;
+            color: #3b82f6;
+            border-radius: 50%;
+            font-weight: 600;
+            font-size: 1.2rem;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .step p {
+            color: #6b7280;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        /* Updated Video Styles */
+        .video-container {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-iframe {
+            width: 356px; /* 200px height × 16/9 aspect ratio */
+            height: 200px;
+            border: none;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .video-container:hover .video-iframe {
+            transform: scale(1.02);
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: #3b82f6;
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .final-cta p {
+            font-size: 1.2rem;
+            margin: 0 auto 2rem;
+            max-width: 600px;
+            opacity: 0.9;
+        }
+
+        .final-cta .cta-button {
+            background: white;
+            color: #3b82f6;
+            font-size: 1.2rem;
+            padding: 1.2rem 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .final-cta .cta-button:hover {
+            background: #f3f4f6;
+            color: #2563eb;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: #111827;
+            color: #9ca3af;
+            padding: 2.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .footer-email {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-email:hover {
+            color: #3b82f6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                transform: translateX(0); 
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            footer {
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#">
+            <img src="https://res.cloudinary.com/dvnahlsra/image/upload/v1752672692/bwalogo_zgrjjk.png" alt="Blue Logo" class="logo-img">
+        </a>
+        <a href="#download" class="nav-download">Download</a>
+    </nav>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                <span id="dynamic-word-container"></span>
+                <span> with Blue.</span>
+            </h1>
+            <p>Your universal AI assistant, seamlessly integrated into your workflow.</p>
+            <a href="#download" class="cta-button">Download Windows App</a>
+            <div class="beta-text">Free to download. Currently in Beta.</div>
+        </div>
+    </section>
+    <section class="how-it-works">
+        <div class="section-container">
+            <h2 class="section-title fade-in">All you have to do is...</h2>
+            <div class="steps">
+                <div class="step fade-in">
+                    <div class="step-number">1</div>
+                    <h3>Highlight</h3>
+                    <p>Whether it's code in your editor, a paragraph in a doc, or data in a spreadsheet—just select it.</p>
+                    <div class="video-container">
+                        <iframe 
+                            class="video-iframe"
+                            src="https://player.cloudinary.com/embed/?cloud_name=dvnahlsra&public_id=1._Highlight_Text_lr7p9c&profile=cld-looping" 
+                            allow="autoplay; encrypted-media; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+                <div class="step fade-in" style="transition-delay: 150ms;">
+                    <div class="step-number">2</div>
+                    <h3>Summon</h3>
+                    <p>Double-tap the Shift key to summon Blue. No more switching windows or breaking your focus.</p>
+                    <div class="video-container">
+                        <iframe 
+                            class="video-iframe"
+                            src="https://player.cloudinary.com/embed/?cloud_name=dvnahlsra&public_id=2._Double_tap_shift_gmq7nh&profile=cld-looping" 
+                            allow="autoplay; encrypted-media; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+                <div class="step fade-in" style="transition-delay: 300ms;">
+                    <div class="step-number">3</div>
+                    <h3>Command</h3>
+                    <p>Ask it to "refactor this code", "build a forecast from this data", or "rewrite this in a different language".</p>
+                    <div class="video-container">
+                        <iframe 
+                            class="video-iframe"
+                            src="https://player.cloudinary.com/embed/?cloud_name=dvnahlsra&public_id=3._Give_request_koqyx3&profile=cld-looping" 
+                            allow="autoplay; encrypted-media; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="final-cta" id="download">
+        <div class="section-container">
+            <h2 class="fade-in">A smarter workflow is just a click away.</h2>
+            <p class="fade-in">Stop context-switching and start creating. Download Blue for Windows and experience a true AI partner.</p>
+            <a href="https://github.com/emmanuelbwa/Blue_Windows_Published/releases/download/v1.0.0/Blue-1.0.0-installer.exe" download class="cta-button fade-in" style="transition-delay: 150ms;">Download Windows App</a>
+        </div>
+    </section>
+    <footer>
+        <div>© 2025 Bluewolf Analytica. All rights reserved.</div>
+        <div>
+            For support email us at: 
+            <a href="mailto:blue@bwanalytica.com.ng" class="footer-email">blue@bwanalytica.com.ng</a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- FINAL ANIMATION FIX: Using an animation lock ---
+            const words = ["Build", "Write", "Code", "Analyse", "Research", "Create"];
+            let currentIndex = 0;
+            const dynamicWordContainer = document.getElementById('dynamic-word-container');
+            let isAnimating = false; // The animation lock
+
+            function rotateWord() {
+                // If an animation is already in progress, stop right here.
+                if (isAnimating) {
+                    return;
+                }
+                isAnimating = true; // Lock the animation
+
+                const activeWord = dynamicWordContainer.querySelector('.word-slide.active');
+
+                if (activeWord) {
+                    activeWord.classList.remove('active');
+                    activeWord.classList.add('exiting');
+                    
+                    setTimeout(() => {
+                        if (activeWord.parentNode) {
+                            activeWord.parentNode.removeChild(activeWord);
+                        }
+                    }, 500); 
+                }
+
+                currentIndex = (currentIndex + 1) % words.length;
+                const nextWordText = words[currentIndex];
+
+                const newWord = document.createElement('span');
+                newWord.className = 'word-slide';
+                newWord.textContent = nextWordText;
+                
+                dynamicWordContainer.appendChild(newWord);
+
+                setTimeout(() => {
+                    newWord.classList.add('active');
+                    // Unlock the animation after the new word has had time to appear.
+                    // 500ms (exit) + 20ms (delay) + 500ms (enter) is ~1020ms. 1000 is safe.
+                    setTimeout(() => {
+                        isAnimating = false;
+                    }, 1000);
+                }, 20);
+            }
+            
+            // Initial call to set the first word without animation lock.
+            // We use a simplified version for the very first word.
+            const firstWord = document.createElement('span');
+            firstWord.className = 'word-slide active';
+            firstWord.textContent = words[0];
+            dynamicWordContainer.appendChild(firstWord);
+
+            setInterval(rotateWord, 2000);
+
+            // --- SMOOTH SCROLL LOGIC ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // --- FADE-IN SCROLL ANIMATION ---
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+
+            // --- NAVIGATION SCROLL EFFECT ---
+            const nav = document.querySelector('nav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
