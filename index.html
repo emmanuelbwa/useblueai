@@ -59,6 +59,7 @@
             font-weight: 500;
             transition: all 0.3s ease;
             cursor: pointer;
+            white-space: nowrap;
         }
 
         .nav-download:hover {
@@ -331,27 +332,6 @@
             color: #3b82f6;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .steps {
-                grid-template-columns: 1fr;
-            }
-            
-            .hero h1 {
-                transform: translateX(0); 
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            footer {
-                flex-direction: column;
-                justify-content: center;
-                text-align: center;
-            }
-        }
-
         /* Scroll animations */
         .fade-in {
             opacity: 0;
@@ -362,6 +342,238 @@
         .fade-in.visible {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            /* Navigation mobile adjustments */
+            nav {
+                padding: 0.75rem 1rem;
+                max-height: 70px;
+            }
+
+            .logo-img {
+                height: 60px;
+            }
+
+            .nav-download {
+                padding: 0.4rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            /* Hero section mobile adjustments */
+            .hero {
+                padding: 6rem 1rem 4rem;
+                min-height: 90vh;
+            }
+
+            .hero h1 {
+                transform: translateX(0);
+                margin-bottom: 1.5rem;
+                flex-direction: column;
+                align-items: center;
+                line-height: 1.1;
+            }
+
+            #dynamic-word-container {
+                width: auto;
+                height: auto;
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+                text-align: center;
+            }
+
+            .word-slide {
+                position: relative;
+                right: auto;
+                text-align: center;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+            }
+
+            .cta-button {
+                padding: 0.9rem 1.8rem;
+                font-size: 1rem;
+            }
+
+            /* How it works section mobile adjustments */
+            .how-it-works {
+                padding: 4rem 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                margin-bottom: 3rem;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                margin-top: 3rem;
+            }
+
+            .step {
+                padding: 2rem 1.5rem;
+            }
+
+            .step h3 {
+                font-size: 1.3rem;
+            }
+
+            .step p {
+                font-size: 0.95rem;
+                margin-bottom: 1.5rem;
+            }
+
+            /* Video container mobile adjustments */
+            .video-container {
+                height: 180px;
+            }
+
+            .video-iframe {
+                width: 100%;
+                height: 180px;
+                max-width: 320px;
+            }
+
+            /* Final CTA mobile adjustments */
+            .final-cta {
+                padding: 4rem 1rem;
+            }
+
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+
+            .final-cta p {
+                font-size: 1.1rem;
+            }
+
+            .final-cta .cta-button {
+                font-size: 1.1rem;
+                padding: 1rem 2rem;
+            }
+
+            /* Footer mobile adjustments */
+            footer {
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+                padding: 2rem 1rem;
+                gap: 1rem;
+            }
+
+            footer div {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            .hero {
+                padding: 5rem 0.75rem 3rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            #dynamic-word-container {
+                width: auto;
+                height: auto;
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+                text-align: center;
+            }
+
+            .word-slide {
+                position: relative;
+                right: auto;
+                text-align: center;
+            }
+
+            .hero p {
+                font-size: 1rem;
+                padding: 0 0.5rem;
+            }
+
+            .cta-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.95rem;
+            }
+
+            .how-it-works {
+                padding: 3rem 0.75rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .step {
+                padding: 1.5rem 1rem;
+            }
+
+            .step h3 {
+                font-size: 1.2rem;
+            }
+
+            .step p {
+                font-size: 0.9rem;
+            }
+
+            .video-container {
+                height: 160px;
+            }
+
+            .video-iframe {
+                height: 160px;
+                max-width: 280px;
+            }
+
+            .final-cta {
+                padding: 3rem 0.75rem;
+            }
+
+            .final-cta h2 {
+                font-size: 1.8rem;
+            }
+
+            .final-cta p {
+                font-size: 1rem;
+                padding: 0 0.5rem;
+            }
+
+            .nav-download {
+                font-size: 0.85rem;
+                padding: 0.35rem 0.8rem;
+            }
+        }
+
+        /* Touch device improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .step:hover {
+                transform: none;
+            }
+
+            .video-container:hover .video-iframe {
+                transform: none;
+            }
+
+            .cta-button:hover {
+                transform: none;
+            }
+
+            .nav-download:hover {
+                transform: none;
+            }
+
+            .final-cta .cta-button:hover {
+                transform: none;
+            }
         }
     </style>
 </head>
